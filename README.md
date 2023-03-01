@@ -1,24 +1,21 @@
 # mytodos
 
-## Project setup
+## Após o download do projeto, na pasta do mesmo:
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Após instalar as dependências:  
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
+### Na pasta mytodos-api
 ```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
+npm install -g json-server
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Após a instalação: 
+```
+npx json-server --watch api.json
+```
