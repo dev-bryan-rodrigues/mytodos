@@ -54,14 +54,13 @@ export default new Vuex.Store({
 
   actions: {
     // Projetos
-
-    async createProject(context, projeto) {
-      await api.post("/projects", projeto);
-    },
-
     async buscarProjetos({ commit }) {
       const projetos = await api.get("/projects");
       commit("setProjects", projetos.data);
+    },
+
+    async createProject(context, projeto) {
+      await api.post("/projects", projeto);
     },
 
     async deletarProjeto(context) {
@@ -87,9 +86,11 @@ export default new Vuex.Store({
     },
 
     async buscarSprints(context) {
-      const sprints = await api.get(
-        `/sprints?project_id=${context.state.activeProject}`
-      );
+      const sprints = await api.get("/sprints", {
+        headers: {
+          project_id: `${context.state.activeProject}`,
+        },
+      });
       context.commit("setSprints", sprints.data);
     },
 

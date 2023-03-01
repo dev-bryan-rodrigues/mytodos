@@ -1,12 +1,12 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:3333",
 });
 
 export const api = {
-  get(endpoint) {
-    return axiosInstance.get(endpoint);
+  get(endpoint, config) {
+    return axiosInstance.get(endpoint, config);
   },
   post(endpoint, body) {
     return axiosInstance.post(endpoint, body);

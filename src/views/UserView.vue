@@ -185,7 +185,6 @@ export default {
       },
       sprint: {
         title: "",
-        listas: [],
         start_at: "",
         finish_at: "",
         project_id: "",
@@ -302,7 +301,6 @@ export default {
     }
 
     this.buscarProjetos();
-    this.buscarSprints();
   },
   watch: {
     selectedProject() {
