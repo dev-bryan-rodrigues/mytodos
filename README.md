@@ -1,6 +1,6 @@
 # mytodos
 
-## Após o download do projeto, na pasta do mesmo:
+## Após o download do projeto, instale as depedências:
 ```
 yarn install
 ```
