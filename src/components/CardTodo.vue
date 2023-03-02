@@ -40,7 +40,7 @@ export default {
     ...mapActions(["atualizarTodo"]),
   },
   mounted() {
-    this.selectedList = this.todo.list_id;
+    this.selectedList = this.todo.listId;
   },
 };
 </script>

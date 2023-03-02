@@ -224,9 +224,8 @@ export default {
         id: "",
       },
       newList: {
-        title: "",
         id: "",
-        todos: [],
+        title: "",
         sprint_id: "",
       },
     };
@@ -240,6 +239,7 @@ export default {
       "criarList",
       "editarList",
       "deletarList",
+      "buscarListas",
     ]),
     fecharModal() {
       this.newTodo.title = "";
@@ -258,7 +258,7 @@ export default {
       }
       this.modalCriarVisible = true;
     },
-    criarTarefa() {
+    async criarTarefa() {
       if (!this.newTodo.title) {
         this.formErrors.todoTitle = true;
         if (!this.newTodo.responsable) {
@@ -274,7 +274,8 @@ export default {
         }
       }
       this.newTodo.list_id = this.lists[0].id;
-      this.criarTodo(this.newTodo);
+      await this.criarTodo(this.newTodo);
+      await this.buscarListas();
       this.fecharModal();
     },
     editarTarefa({ title, responsable, description, id, list_id }, abrirModal) {
@@ -303,6 +304,7 @@ export default {
         }
       }
       await this.atualizarTodo(this.editTodo);
+      await this.buscarListas();
       this.fecharModalEditar();
     },
     fecharModalEditar() {
@@ -342,12 +344,13 @@ export default {
       }
       this.newList.sprint_id = this.activeSprint;
       await this.criarList(this.newList);
+      await this.buscarListas();
       this.fecharModalAddList();
     },
-    editList({ id, title, sprint_id }) {
+    editList({ id, title, sprintId }) {
       this.newList.id = id;
       this.newList.title = title;
-      this.newList.sprint_id = sprint_id;
+      this.newList.sprint_id = sprintId;
       this.modalEditListVisible = true;
     },
     async salvarLista() {
@@ -356,6 +359,7 @@ export default {
         return;
       }
       await this.editarList(this.newList);
+      await this.buscarListas();
       this.fecharModalAddList();
     },
     async deletarLista() {
@@ -364,6 +368,7 @@ export default {
       );
       if (apagar) {
         await this.deletarList(this.newList);
+        await this.buscarListas();
         this.fecharModalAddList();
       }
     },
@@ -390,9 +395,6 @@ export default {
   },
   computed: {
     ...mapGetters(["lists", "activeSprint"]),
-  },
-  created() {
-    this.buscarTodos();
   },
 };
 </script>

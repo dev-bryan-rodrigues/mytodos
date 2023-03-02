@@ -64,15 +64,6 @@ export default new Vuex.Store({
     },
 
     async deletarProjeto(context) {
-      context.state.todos.forEach((todo) => {
-        api.delete(`/todos/${todo.id}`);
-      });
-      context.state.lists.forEach((list) => {
-        api.delete(`/lists/${list.id}`);
-      });
-      context.state.sprints.forEach((sprint) => {
-        api.delete(`/sprints/${sprint.id}`);
-      });
       api.delete(`/projects/${context.state.activeProject}`);
       context.commit("setActiveProject", null);
       context.commit("setActiveSprint", null);
@@ -100,77 +91,40 @@ export default new Vuex.Store({
     },
 
     async deletarSprint(context, sprint) {
-      context.state.lists.forEach((list) => {
-        setTimeout(() => {
-          context.dispatch("deletarList", list);
-        }, 0);
-      });
       await api.delete(`/sprints/${sprint.id}`);
-      if (context.state.activeProject !== null) {
-        context.dispatch("buscarSprints");
-      }
+      context.dispatch("buscarSprints");
     },
 
     // Listas
+    async buscarListas(context) {
+      const { data } = await api.get("/lists", {
+        headers: {
+          sprint_id: `${context.state.activeSprint}`,
+        },
+      });
+      context.commit("setLists", data);
+    },
 
     async criarList(context, list) {
-      await api.post("/lists", list).then(() => {
-        context.dispatch("buscarTodos");
-      });
+      await api.post("/lists", list);
     },
     async editarList(context, list) {
-      await api.put(`/lists/${list.id}`, list).then(() => {
-        context.dispatch("buscarTodos");
-      });
+      await api.put(`/lists/${list.id}`, list);
     },
     async deletarList(context, lista) {
-      await context.dispatch("deletarTodoList", lista.id);
       await api.delete(`/lists/${lista.id}`);
-      await context.dispatch("buscarTodos", lista.id);
     },
 
     // Todos
 
-    async buscarTodos(context) {
-      const lists = await api.get(
-        `/lists?sprint_id=${context.state.activeSprint}`
-      );
-      const todos = await api.get("/todos");
-
-      lists.data.forEach((list) => {
-        todos.data.forEach((todo) => {
-          if (todo.list_id == list.id) {
-            list.todos.push(todo);
-          }
-        });
-      });
-
-      context.commit("setLists", lists.data || []);
-      context.commit("setTodos", todos.data || []);
-    },
     async criarTodo(context, value) {
-      await api.post("/todos", value).then(() => {
-        context.dispatch("buscarTodos");
-      });
+      await api.post("/todos", value);
     },
     async atualizarTodo(context, todo) {
-      await api.put(`/todos/${todo.id}`, todo).then(() => {
-        context.dispatch("buscarTodos");
-      });
+      await api.put(`/todos/${todo.id}`, todo);
     },
     async deletarTodo(context, todo) {
       await api.delete(`/todos/${todo.id}`);
-      context.dispatch("buscarTodos");
-    },
-    async deletarTodoList(context, id) {
-      context.state.todos.forEach((todo) => {
-        if (todo.list_id === id) {
-          setTimeout(() => {
-            context.dispatch("deletarTodo", todo);
-          }, 0);
-        }
-      });
-      context.dispatch("buscarTodos");
     },
   },
   modules: {},

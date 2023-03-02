@@ -64,8 +64,8 @@
             @check="selectSprint"
           >
             <div class="sprint-info">
-              <p><span>Começa em: </span>{{ sprint.start_at | dataBR }}</p>
-              <p><span>Termina em: </span>{{ sprint.finish_at | dataBR }}</p>
+              <p><span>Começa em: </span>{{ sprint.startAt | dataBR }}</p>
+              <p><span>Termina em: </span>{{ sprint.finishAt | dataBR }}</p>
               <button @click="editSprint(sprint)" class="btn editar">
                 Editar sprint
               </button>
@@ -94,21 +94,6 @@
               :error="formErrors.sprintName"
               error-message="Preencha com o nome para continuar"
               :valor="sprint.title"
-            />
-            <label for="start">Começa em: </label>
-            <input
-              type="date"
-              name="start"
-              id="start"
-              v-model="sprint.start_at"
-              disabled
-            />
-            <label for="finish">Termina em: </label>
-            <input
-              type="date"
-              name="finish"
-              id="finish"
-              v-model="sprint.finish_at"
             />
             <div class="buttons">
               <button class="btn salvar" @click="salvarNovaSprint">
@@ -206,6 +191,7 @@ export default {
       "atualizarSprint",
       "deletarSprint",
       "deletarProjeto",
+      "buscarListas",
     ]),
     ...mapMutations(["setActiveProject", "setActiveSprint"]),
     async salvarProjeto() {
@@ -244,9 +230,9 @@ export default {
     editSprint(sprint) {
       this.editarSprint = true;
       this.sprint.title = sprint.title;
-      this.sprint.start_at = sprint.start_at;
-      this.sprint.finish_at = sprint.finish_at;
-      this.sprint.project_id = sprint.project_id;
+      this.sprint.start_at = sprint.startAt;
+      this.sprint.finish_at = sprint.finishAt;
+      this.sprint.project_id = sprint.projectId;
       this.sprint.id = sprint.id;
       setTimeout(() => {
         const editarSprint = document.querySelector(".editar-sprint");
@@ -309,7 +295,7 @@ export default {
     },
     selectedSprint() {
       this.setActiveSprint(this.selectedSprint);
-      this.buscarTodos();
+      this.buscarListas();
     },
     activeProject() {
       if (this.activeProject === null) {
