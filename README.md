@@ -10,12 +10,9 @@ yarn install
 yarn serve
 ```
 
-### Na pasta mytodos-api
+### Baixe o repositório MyTodos - API 
 ```
-npm install -g json-server
+[MyTodos - API - Repositório](https://github.com/dev-bryan-rodrigues/mytodos-api)
 ```
 
-### Após a instalação: 
-```
-npx json-server --watch api.json
-```
+
