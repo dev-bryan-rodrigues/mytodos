@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button :style="cssVars">
+    <button @click.prevent="$emit('click', $event)" :style="cssVars">
       <slot />
     </button>
   </div>
