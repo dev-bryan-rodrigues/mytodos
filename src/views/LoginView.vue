@@ -153,49 +153,42 @@ form p {
   left: 140px;
   top: 50px;
   animation: moveY 5s alternate infinite;
-  animation-delay: 0.1s;
 }
 .todo-card.two {
   position: absolute;
   left: 287px;
   top: 200px;
-  animation: moveX 5s alternate infinite;
-  animation-delay: 0.3s;
+  animation: moveX 3s alternate infinite;
 }
 .todo-card.three {
   position: absolute;
   left: 69px;
   top: 400px;
-  animation: moveY 5s alternate infinite;
-  animation-delay: 1s;
+  animation: moveY 3s alternate infinite;
 }
 .todo-card.four {
   position: absolute;
   left: 330px;
   top: 600px;
-  animation: moveX 5s alternate infinite;
-  animation-delay: 0.4s;
+  animation: moveX 2s alternate infinite;
 }
 .todo-card.five {
   position: absolute;
   left: 30px;
   top: 126px;
-  animation: moveY 5s alternate infinite;
-  animation-delay: 0.7s;
+  animation: moveY 2s alternate infinite;
 }
 .todo-card.six {
   position: absolute;
   left: 115px;
   top: 350px;
-  animation: moveX 5s alternate infinite;
-  animation-delay: 0.6s;
+  animation: moveX 2s alternate infinite;
 }
 .todo-card.seven {
   position: absolute;
   left: 200px;
   top: 500px;
-  animation: moveY 5s alternate infinite;
-  animation-delay: 2s;
+  animation: moveY 4s alternate infinite;
 }
 .todo-card {
   z-index: -1;
@@ -206,6 +199,7 @@ form p {
   }
   from {
     transform: translate3d(0, 50px, 0);
+    opacity: 0.3;
   }
 }
 @keyframes moveX {
@@ -214,6 +208,7 @@ form p {
   }
   from {
     transform: translate3d(50px, 0, 0);
+    opacity: 0.3;
   }
 }
 .v-enter {
