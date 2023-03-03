@@ -15,9 +15,6 @@ export default {
   components: {
     TheHeader,
   },
-  created() {
-    this.$router.push("/user");
-  },
 };
 </script>
 
@@ -28,10 +25,10 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", sans-serif;
+  font-family: "Poppins", sans-serif;
   text-decoration: none;
   list-style: none;
-  color: #134866;
+  color: #111111;
 }
 
 img {
@@ -39,23 +36,6 @@ img {
   display: block;
 }
 body {
-  background: #ebfdff;
-}
-.btn {
-  width: 50px;
-  height: 50px;
-  border-radius: 15px;
-  border: none;
-  font-size: 40px;
-  background: #00a9dc;
-  color: #cdf8ff;
-  cursor: pointer;
-  box-shadow: -1px 1px 2px rgba(9, 107, 149, 0.4);
-  transition: all 0.3s;
-}
-.btn:hover {
-  transform: scale(1.1);
-  background: #18b5e0;
-  box-shadow: -2px 2px 4px rgba(9, 107, 149, 0.4);
+  background: #faf8f0;
 }
 </style>

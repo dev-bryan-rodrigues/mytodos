@@ -1,17 +1,10 @@
 <template>
   <header>
-    <router-link to="/">
-      <div class="logo">
-        <h1>MyTodo</h1>
-      </div>
-    </router-link>
-    <div class="link">
-      <router-link to="/">
-        <img src="@/assets/logo.png" alt="" />
-      </router-link>
-      <router-link to="/user">
-        <img src="@/assets/user.png" alt="usericon" class="user" />
-      </router-link>
+    <h1>myTodos</h1>
+    <div class="user">
+      <img src="@/assets/user.svg" alt="Ícone do usuário" />
+      <p>Usuário</p>
+      <img src="@/assets/logout.svg" alt="Íconde de logout" />
     </div>
   </header>
 </template>
@@ -25,40 +18,38 @@ export default {
 <style scoped>
 header {
   width: 100%;
-  height: 70px;
-  background: #00a9dc;
-  padding: 20px;
+  height: 100px;
+  background: #a8ead5;
+  padding: 14px 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 0 16px 16px;
+}
+h1 {
+  display: block;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 72px;
+  font-family: "Poppins";
+  color: #258c80;
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: center;
+}
+.user {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  box-shadow: 0px 4px 8px rgba(9, 107, 149, 0.3);
-  border-radius: 0 0 10px 10px;
+  gap: 24px;
+  justify-self: end;
 }
-.logo img {
-  height: 60px;
-}
-.link img {
-  height: 50px;
-}
-.link img.user {
-  opacity: 0.7;
-  height: 45px;
-}
-.link {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-.logo h1 {
-  color: #096b95;
-}
-.router-link-exact-active .router-link-active {
-  border-bottom: 12px solid #fff;
+.user p {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+  color: #258c80;
 }
 </style>
