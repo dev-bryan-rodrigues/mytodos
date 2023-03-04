@@ -1,7 +1,14 @@
 <template>
   <div class="input-wrapper">
     <label for="input">{{ label }}</label>
-    <input :type="type" name="input" id="input" v-model="value" />
+    <input
+      :type="type"
+      name="input"
+      :id="label"
+      v-model="value"
+      :class="{ error: error }"
+    />
+    <p v-if="error" class="text-error">{{ error }}</p>
   </div>
 </template>
 
@@ -25,6 +32,10 @@ export default {
     type: {
       type: String,
       default: "text",
+    },
+    error: {
+      type: String,
+      default: "",
     },
   },
   computed: {
@@ -72,5 +83,28 @@ input:focus {
 }
 input:focus-visible {
   outline: #aade87;
+}
+input.error {
+  box-shadow: 0px 0px 4px #f24463;
+  color: #e44652;
+}
+.text-error {
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #e44652;
+  margin-top: 5px;
+  animation: slideError 0.5s forwards;
+}
+@keyframes slideError {
+  from {
+    transform: translate3d(0, -10px, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
 }
 </style>

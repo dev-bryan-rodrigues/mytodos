@@ -22,15 +22,17 @@
           <ContentBox max-width="350px">
             <form>
               <InputLabel
-                @input="user.name = $event"
+                @input="(user.name = $event), (formErrors.nome = '')"
                 width="314px"
                 label="Nome"
+                :error="formErrors.nome"
               />
               <InputLabel
                 width="314px"
                 label="Senha"
-                @input="user.password = $event"
+                @input="(user.password = $event), (formErrors.senha = '')"
                 type="password"
+                :error="formErrors.senha"
               />
               <ButtonStandart @click="entrar" width="314px" padding="2px 112px">
                 Entrar
@@ -101,6 +103,10 @@ export default {
         password: "",
         confirmSenha: "",
       },
+      formErrors: {
+        nome: "",
+        senha: "",
+      },
     };
   },
   methods: {
@@ -108,10 +114,21 @@ export default {
     async entrar() {
       const { name, password } = this.user;
 
+      if (!name) {
+        this.formErrors.nome = "Este campo precisa ser preenchido.";
+      }
+      if (!password) {
+        this.formErrors.senha = "Este campo precisa ser preenchido.";
+      }
       const logou = await this.login({ name, password });
 
       if (logou.status === "sucess") {
-        console.log("logou");
+        this.$router.push("/home");
+      }
+
+      if (logou.status === "error") {
+        this.formErrors.nome = "Usuário ou senha incorretos";
+        this.formErrors.senha = "Usuário ou senha incorretos";
       }
     },
   },
