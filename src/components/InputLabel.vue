@@ -1,13 +1,18 @@
 <template>
   <div class="input-wrapper">
     <label for="input">{{ label }}</label>
-    <input type="text" name="input" id="input" />
+    <input :type="type" name="input" id="input" v-model="value" />
   </div>
 </template>
 
 <script>
 export default {
   name: "InputLabel",
+  data() {
+    return {
+      value: null,
+    };
+  },
   props: {
     label: {
       type: String,
@@ -17,12 +22,21 @@ export default {
       type: String,
       default: "",
     },
+    type: {
+      type: String,
+      default: "text",
+    },
   },
   computed: {
     cssVars() {
       return {
         "--width": this.width,
       };
+    },
+  },
+  watch: {
+    value() {
+      this.$emit("input", this.value);
     },
   },
 };

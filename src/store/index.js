@@ -12,6 +12,8 @@ export default new Vuex.Store({
     sprints: [],
     activeProject: null,
     activeSprint: null,
+    userToken: "",
+    user: {},
   },
   getters: {
     lists(state) {
@@ -28,6 +30,9 @@ export default new Vuex.Store({
     },
     activeSprint(state) {
       return state.activeSprint;
+    },
+    token(state) {
+      return state.userToken;
     },
   },
 
@@ -50,21 +55,58 @@ export default new Vuex.Store({
     setActiveSprint(state, value) {
       state.activeSprint = value;
     },
+    setUserToken(state, value) {
+      state.userToken = value;
+    },
   },
 
   actions: {
+    // Users
+
+    async login(context, user) {
+      try {
+        const { data } = await api.post("/auth", user);
+        context.commit("setUserToken", data.token);
+        return { status: "sucess" };
+      } catch (err) {
+        return { status: "error", err };
+      }
+    },
+
     // Projetos
-    async buscarProjetos({ commit }) {
-      const projetos = await api.get("/projects");
-      commit("setProjects", projetos.data);
+
+    async buscarProjetos(context) {
+      const projetos = await api.get("/projects", {
+        headers: {
+          user_id: `${context.state.user?.id}`,
+          Authorization: `bearer ${context.state.userToken}`,
+        },
+      });
+      context.commit("setProjects", projetos.data);
     },
 
     async createProject(context, projeto) {
-      await api.post("/projects", projeto);
+      await api.post("/projects", projeto, {
+        headers: {
+          Authorization: `bearer ${context.state.userToken}`,
+        },
+      });
+    },
+
+    async updateProject(context, projeto) {
+      await api.put("/projects", projeto, {
+        headers: {
+          Authorization: `${context.state.userToken}`,
+        },
+      });
     },
 
     async deletarProjeto(context) {
-      api.delete(`/projects/${context.state.activeProject}`);
+      api.delete(`/projects/${context.state.activeProject}`, {
+        headers: {
+          Authorization: `${context.state.userToken}`,
+        },
+      });
       context.commit("setActiveProject", null);
       context.commit("setActiveSprint", null);
     },

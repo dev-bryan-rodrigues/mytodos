@@ -17,20 +17,29 @@
     <div class="center">
       <h1>myTodos</h1>
       <transition mode="out-in">
-        <div key="login" v-if="login === 'login'" class="login">
+        <div key="login" v-if="form === 'entrar'" class="login">
           <h2>Login</h2>
-          <ContentBox max-width="350px" v-if="login === 'login'">
+          <ContentBox max-width="350px">
             <form>
-              <InputLabel width="314px" label="Nome" />
-              <InputLabel width="314px" label="Senha" />
-              <ButtonStandart width="314px" padding="2px 112px">
+              <InputLabel
+                @input="user.name = $event"
+                width="314px"
+                label="Nome"
+              />
+              <InputLabel
+                width="314px"
+                label="Senha"
+                @input="user.password = $event"
+                type="password"
+              />
+              <ButtonStandart @click="entrar" width="314px" padding="2px 112px">
                 Entrar
               </ButtonStandart>
               <p>Ou</p>
               <ButtonStandart
                 width="314px"
                 padding="2px 90px"
-                @click="login = 'create'"
+                @click="login = 'criar'"
               >
                 Criar conta
               </ButtonStandart>
@@ -44,7 +53,6 @@
               <InputLabel width="314px" label="Nome" />
               <InputLabel width="314px" label="Senha" />
               <InputLabel width="314px" label="Confirme a senha" />
-
               <ButtonStandart width="314px" padding="2px 90px">
                 Criar conta
               </ButtonStandart>
@@ -52,7 +60,7 @@
               <ButtonStandart
                 width="314px"
                 padding="2px 112px"
-                @click="login = 'login'"
+                @click="form = 'login'"
               >
                 Entrar
               </ButtonStandart>
@@ -80,14 +88,32 @@
 import ContentBox from "@/components/ContentBox.vue";
 import InputLabel from "@/components/InputLabel.vue";
 import ButtonStandart from "@/components/ButtonStandart.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "LoginView",
   components: { ContentBox, InputLabel, ButtonStandart },
   data() {
     return {
-      login: "login",
+      form: "entrar",
+      user: {
+        name: "",
+        password: "",
+        confirmSenha: "",
+      },
     };
+  },
+  methods: {
+    ...mapActions(["login"]),
+    async entrar() {
+      const { name, password } = this.user;
+
+      const logou = await this.login({ name, password });
+
+      if (logou.status === "sucess") {
+        console.log("logou");
+      }
+    },
   },
 };
 </script>
@@ -222,5 +248,14 @@ form p {
 .v-enter-active,
 .v-leave-active {
   transition: all 0.7s;
+}
+@media (max-width: 1320px) {
+  .login-wrapper {
+    padding-top: 0px;
+    padding-bottom: 200px;
+  }
+  h1 {
+    margin-bottom: 20px;
+  }
 }
 </style>

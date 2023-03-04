@@ -8,13 +8,13 @@ export const api = {
   get(endpoint, config) {
     return axiosInstance.get(endpoint, config);
   },
-  post(endpoint, body) {
-    return axiosInstance.post(endpoint, body);
+  post(endpoint, body, config) {
+    return axiosInstance.post(endpoint, body, config);
   },
-  put(endpoint, body) {
-    return axiosInstance.put(endpoint, body);
+  put(endpoint, body, config) {
+    return axiosInstance.put(endpoint, body, config);
   },
-  delete(endpoint) {
-    return axiosInstance.delete(endpoint);
+  delete(endpoint, config) {
+    return axiosInstance.delete(endpoint, config);
   },
 };
