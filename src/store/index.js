@@ -34,6 +34,9 @@ export default new Vuex.Store({
     token(state) {
       return state.userToken;
     },
+    user(state) {
+      return state.user;
+    },
   },
 
   mutations: {
@@ -58,6 +61,9 @@ export default new Vuex.Store({
     setUserToken(state, value) {
       state.userToken = value;
     },
+    setUser(state, value) {
+      state.user = value;
+    },
   },
 
   actions: {
@@ -67,7 +73,17 @@ export default new Vuex.Store({
       try {
         const { data } = await api.post("/auth", user);
         context.commit("setUserToken", data.token);
-        return { status: "sucess" };
+        context.commit("setUser", user);
+        return { status: "success" };
+      } catch (err) {
+        return { status: "error", err };
+      }
+    },
+
+    async register(context, user) {
+      try {
+        await api.post("/users", user);
+        return { status: "success" };
       } catch (err) {
         return { status: "error", err };
       }

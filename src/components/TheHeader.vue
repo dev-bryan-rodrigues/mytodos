@@ -3,15 +3,19 @@
     <h1>myTodos</h1>
     <div class="user">
       <img src="@/assets/user.svg" alt="Ícone do usuário" />
-      <p>Usuário</p>
+      <p>{{ user.name }}</p>
       <img src="@/assets/logout.svg" alt="Íconde de logout" />
     </div>
   </header>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "TheHeader",
+  computed: {
+    ...mapGetters(["user"]),
+  },
 };
 </script>
 
@@ -51,5 +55,14 @@ h1 {
   font-size: 24px;
   line-height: 36px;
   color: #258c80;
+}
+@media (max-width: 1320px) {
+  header {
+    height: 80px;
+  }
+  h1 {
+    font-size: 36px;
+    line-height: 100%;
+  }
 }
 </style>

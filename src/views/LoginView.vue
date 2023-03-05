@@ -41,7 +41,12 @@
               <ButtonStandart
                 width="314px"
                 padding="2px 90px"
-                @click="login = 'criar'"
+                @click="
+                  formErrors.confirmSenha = '';
+                  formErrors.senha = '';
+                  formErrors.nome = '';
+                  form = 'criar';
+                "
               >
                 Criar conta
               </ButtonStandart>
@@ -52,17 +57,46 @@
           <h2>Criar Conta</h2>
           <ContentBox max-width="350px">
             <form>
-              <InputLabel width="314px" label="Nome" />
-              <InputLabel width="314px" label="Senha" />
-              <InputLabel width="314px" label="Confirme a senha" />
-              <ButtonStandart width="314px" padding="2px 90px">
+              <InputLabel
+                width="314px"
+                label="Nome"
+                @input="(user.name = $event), (formErrors.nome = '')"
+                :error="formErrors.nome"
+              />
+              <InputLabel
+                width="314px"
+                label="Senha"
+                @input="(user.password = $event), (formErrors.senha = '')"
+                :error="formErrors.senha"
+                type="password"
+              />
+              <InputLabel
+                width="314px"
+                label="Confirme a senha"
+                @input="
+                  (user.confirmPassword = $event),
+                    (formErrors.confirmSenha = '')
+                "
+                :error="formErrors.confirmSenha"
+                type="password"
+              />
+              <ButtonStandart
+                width="314px"
+                padding="2px 90px"
+                @click="criarConta"
+              >
                 Criar conta
               </ButtonStandart>
               <p>Ou</p>
               <ButtonStandart
                 width="314px"
                 padding="2px 112px"
-                @click="form = 'login'"
+                @click="
+                  formErrors.confirmSenha = '';
+                  formErrors.senha = '';
+                  formErrors.nome = '';
+                  form = 'entrar';
+                "
               >
                 Entrar
               </ButtonStandart>
@@ -101,34 +135,63 @@ export default {
       user: {
         name: "",
         password: "",
-        confirmSenha: "",
+        confirmPassword: "",
       },
       formErrors: {
         nome: "",
         senha: "",
+        confirmSenha: "",
       },
     };
   },
   methods: {
-    ...mapActions(["login"]),
+    ...mapActions(["login", "register"]),
     async entrar() {
       const { name, password } = this.user;
 
       if (!name) {
         this.formErrors.nome = "Este campo precisa ser preenchido.";
+        return;
       }
       if (!password) {
         this.formErrors.senha = "Este campo precisa ser preenchido.";
+        return;
       }
       const logou = await this.login({ name, password });
 
-      if (logou.status === "sucess") {
+      if (logou.status === "success") {
         this.$router.push("/home");
       }
 
       if (logou.status === "error") {
         this.formErrors.nome = "Usuário ou senha incorretos";
         this.formErrors.senha = "Usuário ou senha incorretos";
+      }
+    },
+    async criarConta() {
+      const { name, password, confirmPassword } = this.user;
+      if (!name) {
+        this.formErrors.nome = "Este campo precisa ser preenchido.";
+        return;
+      }
+      if (!password) {
+        this.formErrors.senha = "Este campo precisa ser preenchido.";
+        return;
+      }
+      if (!confirmPassword) {
+        this.formErrors.confirmSenha = "Este campo precisa ser preenchido.";
+        return;
+      }
+      if (password !== confirmPassword) {
+        this.formErrors.confirmSenha = "As senhas estão diferentes";
+        return;
+      }
+
+      const registrou = await this.register({ name, password });
+
+      if (registrou.status === "success") {
+        await this.login({ name, password });
+        this.$router.push("/home");
       }
     },
   },
