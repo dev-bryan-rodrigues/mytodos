@@ -183,7 +183,7 @@ export default {
         return;
       }
       if (password !== confirmPassword) {
-        this.formErrors.confirmSenha = "As senhas estão diferentes";
+        this.formErrors.confirmSenha = "As senhas estão diferentes.";
         return;
       }
 
@@ -192,6 +192,11 @@ export default {
       if (registrou.status === "success") {
         await this.login({ name, password });
         this.$router.push("/home");
+      }
+
+      if (registrou.rule === "unique") {
+        this.formErrors.nome = "Esse nome já está sendo usado.";
+        return;
       }
     },
   },

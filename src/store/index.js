@@ -72,8 +72,8 @@ export default new Vuex.Store({
     async login(context, user) {
       try {
         const { data } = await api.post("/auth", user);
-        context.commit("setUserToken", data.token);
-        context.commit("setUser", user);
+        context.commit("setUserToken", data.token.token);
+        context.commit("setUser", data.user[0]);
         return { status: "success" };
       } catch (err) {
         return { status: "error", err };
@@ -86,7 +86,7 @@ export default new Vuex.Store({
           Authorization: `bearer ${context.state.userToken}`,
         },
       });
-      await context.commit("setUser", {});
+      context.commit("setUser", {});
     },
 
     async register(context, user) {
@@ -94,7 +94,7 @@ export default new Vuex.Store({
         await api.post("/users", user);
         return { status: "success" };
       } catch (err) {
-        return { status: "error", err };
+        return { rule: err.response.data.errors[0].rule };
       }
     },
 
@@ -111,6 +111,7 @@ export default new Vuex.Store({
     },
 
     async createProject(context, projeto) {
+      projeto.user_id = context.state.user.id;
       await api.post("/projects", projeto, {
         headers: {
           Authorization: `bearer ${context.state.userToken}`,
@@ -146,7 +147,7 @@ export default new Vuex.Store({
     async buscarSprints(context) {
       const sprints = await api.get("/sprints", {
         headers: {
-          project_id: `${context.state.activeProject}`,
+          project_id: `${context.state.activeProject.id}`,
         },
       });
       context.commit("setSprints", sprints.data);

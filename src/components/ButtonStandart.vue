@@ -52,7 +52,7 @@ button {
   background: var(--background);
   color: var(--color);
   border: 1px solid var(--color);
-  transition: all 0.5s;
+  transition: all 0.3s;
   cursor: pointer;
   padding: var(--padding);
   font-size: var(--fontSize);

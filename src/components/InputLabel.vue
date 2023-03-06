@@ -1,6 +1,6 @@
 <template>
   <div class="input-wrapper">
-    <label for="input">{{ label }}</label>
+    <label :style="cssVars" for="input">{{ label }}</label>
     <input
       :type="type"
       name="input"
@@ -37,11 +37,16 @@ export default {
       type: String,
       default: "",
     },
+    fontLabel: {
+      type: String,
+      default: "20px",
+    },
   },
   computed: {
     cssVars() {
       return {
         "--width": this.width,
+        "-fontLabel": this.fontLabel,
       };
     },
   },
@@ -61,8 +66,8 @@ export default {
 }
 label {
   font-weight: 600;
-  font-size: 20px;
-  line-height: 30px;
+  font-size: var(--fontLabel);
+  line-height: 100%;
   margin-bottom: 5px;
 }
 input {
