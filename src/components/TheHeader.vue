@@ -4,17 +4,29 @@
     <div class="user">
       <img src="@/assets/user.svg" alt="Ícone do usuário" />
       <p>{{ user.name }}</p>
-      <img src="@/assets/logout.svg" alt="Íconde de logout" />
+      <img
+        src="@/assets/logout.svg"
+        alt="Íconde de logout"
+        class="logout-icon"
+        @click="sair"
+      />
     </div>
   </header>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "TheHeader",
   computed: {
     ...mapGetters(["user"]),
+  },
+  methods: {
+    ...mapActions(["logout"]),
+    async sair() {
+      await this.logout();
+      this.$router.push("/");
+    },
   },
 };
 </script>
@@ -55,6 +67,13 @@ h1 {
   font-size: 24px;
   line-height: 36px;
   color: #258c80;
+}
+.logout-icon {
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.logout-icon:hover {
+  transform: scale(1.05);
 }
 @media (max-width: 1320px) {
   header {

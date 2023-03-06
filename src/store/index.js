@@ -80,6 +80,15 @@ export default new Vuex.Store({
       }
     },
 
+    async logout(context) {
+      await api.delete("/auth", {
+        headers: {
+          Authorization: `bearer ${context.state.userToken}`,
+        },
+      });
+      await context.commit("setUser", {});
+    },
+
     async register(context, user) {
       try {
         await api.post("/users", user);

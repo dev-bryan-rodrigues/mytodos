@@ -7,8 +7,17 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "App",
+  computed: {
+    ...mapGetters(["user"]),
+  },
+  created() {
+    if (!this.user.password) {
+      this.$router.push("/");
+    }
+  },
 };
 </script>
 
@@ -29,5 +38,17 @@ img {
 }
 body {
   background: #faf8f0;
+}
+.v-enter {
+  opacity: 0;
+  transform: translate3d(-50px, 0, 0);
+}
+.v-leave-to {
+  opacity: 0;
+  transform: translate3d(50px, 0, 0);
+}
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s;
 }
 </style>
